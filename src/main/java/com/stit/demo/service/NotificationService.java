@@ -5,8 +5,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 
 public class NotificationService {
 
-    @Autowired
-    @Qualifier("smsService")
     private final MessageService messageService;
 
     public NotificationService(MessageService messageService) {
@@ -14,6 +12,6 @@ public class NotificationService {
     }
 
     public void notifyUsers(){
-        messageService.sendMessage("This is a test message.");
+        messageService.sendMessage();
     }
 }

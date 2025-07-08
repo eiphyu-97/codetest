@@ -1,26 +1,29 @@
 package com.stit.demo.config;
 
 import com.stit.demo.service.*;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.*;
 
 @Configuration
+@ComponentScan("com.stit.demo")
 public class BeansConfig {
 
-    @Bean
+    @Bean(name = "SMS")
     public SMSService smsService(){
-        return new SMSService();
+        SMSService smsService = new SMSService();
+        smsService.setMessage("This is a test message from Method Bean.");
+        return smsService;
     }
 
-    @Bean
-    @Primary
+    @Bean(name = "Email")
     public EmailService emailService(){
-        return new EmailService();
+        EmailService emailService = new EmailService();
+        emailService.setMessage("This is a test message from Method Bean");
+        return emailService;
     }
 
     @Bean
-    public NotificationService notificationService(MessageService messageService){
+    public NotificationService notificationService(@Qualifier("emailService") MessageService messageService){
         return new NotificationService(messageService);
     }
 
